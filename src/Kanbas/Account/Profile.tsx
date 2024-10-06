@@ -1,20 +1,24 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function Profile() {
   return (
-    <div id="wd-profile-screen">
-      <h3>Profile</h3>
-      <input defaultValue="alice" placeholder="username" className="wd-username"/><br/>
-      <input defaultValue="123"   placeholder="password" type="password" className="wd-password" /><br/>
-      <input defaultValue="Alice" placeholder="First Name" id="wd-firstname" /><br/>
-      <input defaultValue="Wonderland" placeholder="Last Name" id="wd-lastname" /><br/>
-      <input defaultValue="2000-01-01" type="date" id="wd-dob" /><br/>
-      <input defaultValue="alice@wonderland" type="email" id="wd-email" /><br/>
-      <select defaultValue="FACULTY" id="wd-role">
-        <option value="USER">User</option>
-        <option value="ADMIN">Admin</option>
-        <option value="FACULTY">Faculty</option>
-        <option value="STUDENT">Student</option>
-      </select><br/>
-      <Link to="/Kanbas/Account/Signin" >Sign out</Link>
+    <div className="container d-flex justify-content-center align-items-start vh-100 mt-3">
+      <div 
+        id="wd-profile-screen" 
+        className="card p-4 shadow-sm w-100" 
+        style={{ maxWidth: "500px" }}
+      >
+        <h3 className="text-center mb-4">Profile</h3>
+        <input defaultValue="alice" className="wd-username form-control mb-2" />
+        <input defaultValue="123" className="wd-id form-control mb-2" />
+        <input defaultValue="Alice" className="wd-firstname form-control mb-2" />
+        <input defaultValue="Wonderland" className="wd-lastname form-control mb-2" />
+        <input defaultValue="2000-01-01" type="date" className="wd-birthday form-control mb-2" />
+        <input defaultValue="alice@wonderland.com" type="email" className="wd-email form-control mb-2" />
+        <input defaultValue="User" className="wd-role form-control mb-4" />
+        <button className="btn btn-danger w-100">Signout</button>
+      </div>
     </div>
-);}
+  );
+}
