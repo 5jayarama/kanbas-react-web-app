@@ -3,17 +3,23 @@ import ModuleControlButtons from "./ModulesControls";
 import LessonControlButtons from "./LessonControls";
 import { BsGripVertical } from "react-icons/bs";
 import { FaClipboard } from "react-icons/fa";
+import { BsPlus } from 'react-icons/bs';
 export default function Modules() {
     return (
       <div>
         <ModulesControls /><br /><br /><br /><br />
   <ul id="wd-modules" className="list-group rounded-0">
     <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-      <div className="wd-title p-3 ps-2 bg-secondary">
-        <BsGripVertical className="me-2 fs-3" />
-        Week 1
-        
-      </div>
+    <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
+  <div>
+    <BsGripVertical className="me-2 fs-3" />
+    Week 1
+  </div>
+  <div className="d-flex align-items-center">
+  <BsPlus className="ms-2 fs-3" />
+    <LessonControlButtons />
+  </div>
+</div>
       <ul className="wd-lessons list-group rounded-0">
         <li className="wd-lesson list-group-item p-3 ps-1">
           <BsGripVertical className="me-2 fs-3" />
@@ -33,14 +39,8 @@ export default function Modules() {
         <li className="wd-lesson list-group-item p-3 ps-1"> <BsGripVertical className="me-2 fs-3" />Getting started with the 1st assignment <LessonControlButtons /></li>
 <li className="wd-lesson list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"> 
   <div className="d-flex align-items-center"> 
-    <BsGripVertical className="me-2 fs-3" />
-    <FaClipboard className="me-2 text-success fs-4" /> 
-    <div>
-      <span className="fw-bold">LESSON 1</span>
+    <BsGripVertical className="me-2 fs-3" />LESSON 1
       <div className="text-muted ms-0">
-        <span>Multiple Modules</span> | <span>Not available until March 6 at 12:00am</span> |
-        <span> Due March 13 at 11:59pm</span> | <span>100 pts</span>
-      </div>
     </div>
   </div>
   <div className="d-flex align-items-center"> 
@@ -49,14 +49,8 @@ export default function Modules() {
 </li>
 <li className="wd-lesson list-group-item p-3 ps-1 d-flex justify-content-between align-items-center"> 
   <div className="d-flex align-items-center"> 
-    <BsGripVertical className="me-2 fs-3" />
-    <FaClipboard className="me-2 text-success fs-4" /> 
-    <div>
-      <span className="fw-bold">LESSON 2</span>
+    <BsGripVertical className="me-2 fs-3" />LESSON 2
       <div className="text-muted ms-0">
-        <span>Multiple Modules</span> | <span>Not available until March 13 at 12:00am</span> |
-        <span> Due March 20 at 11:59pm</span> | <span>100 pts</span>
-      </div>
     </div>
   </div>
   <div className="d-flex align-items-center">
@@ -67,9 +61,17 @@ export default function Modules() {
       </ul>
     </li>
     <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-      <div className="wd-title p-3 ps-2 bg-secondary">
-      <BsGripVertical className="me-2 fs-3" />
-        Week 2 </div>
+    <div className="wd-title p-3 ps-2 bg-secondary d-flex justify-content-between align-items-center">
+  <div>
+    <BsGripVertical className="me-2 fs-3" />
+    Week 2
+  </div>
+  <div className="d-flex align-items-center">
+  <BsPlus className="ms-2 fs-3" />
+    <LessonControlButtons />
+  </div>
+</div>
+        
       <ul className="wd-lessons list-group rounded-0">
         <li className="wd-lesson list-group-item p-3 ps-1">
           <BsGripVertical className="me-2 fs-3" />
@@ -79,14 +81,8 @@ export default function Modules() {
           <li className="wd-lesson list-group-item p-3 ps-1"> <BsGripVertical className="me-2 fs-3" />Deploy the assignment to Netlify <LessonControlButtons /></li>
 <li className="wd-lesson list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
   <div className="d-flex align-items-center">
-    <BsGripVertical className="me-2 fs-3" />
-    <FaClipboard className="me-2 text-success fs-4" />
-    <div>
-      <span className="fw-bold">LESSON 1</span>
+    <BsGripVertical className="me-2 fs-3" />LESSON 1
       <div className="text-muted ms-0">
-        <span>Multiple Modules</span> | <span>Not available until April 6 at 12:00am</span> |
-        <span> Due April 13 at 11:59pm</span> | <span>100 pts</span>
-      </div>
     </div>
   </div>
   <div className="d-flex align-items-center">
@@ -95,14 +91,8 @@ export default function Modules() {
 </li>
 <li className="wd-lesson list-group-item p-3 ps-1 d-flex justify-content-between align-items-center">
   <div className="d-flex align-items-center"> 
-    <BsGripVertical className="me-2 fs-3" />
-    <FaClipboard className="me-2 text-success fs-4" />
-    <div>
-      <span className="fw-bold">LESSON 2</span>
+    <BsGripVertical className="me-2 fs-3" />LESSON 2
       <div className="text-muted ms-0">
-        <span>Multiple Modules</span> | <span>Not available until April 13 at 12:00am</span> |
-        <span> Due April 20 at 11:59pm</span> | <span>100 pts</span>
-      </div>
     </div>
   </div>
   <div className="d-flex align-items-center">
