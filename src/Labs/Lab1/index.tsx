@@ -115,13 +115,14 @@ Your favorite books (in no particular order)
           Loading an image from the internet:
           <br />
           <img id="wd-starship"
-            width="400px"
-          src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"
-          />
+     width="400px"
+     src="https://www.staradvertiser.com/wp-content/uploads/2021/08/web1_Starship-gap2.jpg"
+     alt="Starship Gap"
+/>
           <br />
           Loading a local image:
           <br />
-          <img id="wd-teslabot" src="images/teslabot.jpg" height="200px" />
+          <img id="wd-teslabot" src="/images/teslabot.jpg" height="200px" alt="" />
         </div>
         <div id="wd-forms">
   <h4>Form Elements</h4>

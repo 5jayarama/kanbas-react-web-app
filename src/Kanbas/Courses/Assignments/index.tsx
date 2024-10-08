@@ -57,6 +57,7 @@ export default function Assignments() {
 
       {isOpen && (
         <div className="mt-3">
+          <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
           <div className="d-flex align-items-center justify-content-between border-start border-3 border-success p-3">
             <div className="d-flex align-items-center">
               <FaGripVertical className="me-2 fs-4" />
@@ -73,6 +74,7 @@ export default function Assignments() {
               <FaEllipsisV className="text-muted fs-4" />
             </div>
           </div>
+          <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
 
           <div className="d-flex align-items-center justify-content-between border-start border-3 border-success p-3">
             <div className="d-flex align-items-center">
@@ -90,6 +92,7 @@ export default function Assignments() {
               <FaEllipsisV className="text-muted fs-4" />
             </div>
           </div>
+          <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
 
           <div className="d-flex align-items-center justify-content-between border-start border-3 border-success p-3">
             <div className="d-flex align-items-center">
@@ -107,6 +110,7 @@ export default function Assignments() {
               <FaEllipsisV className="text-muted fs-4" />
             </div>
           </div>
+          <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
         </div>
       )}
     </div>

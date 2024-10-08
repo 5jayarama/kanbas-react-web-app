@@ -1,8 +1,6 @@
 import ModulesControls from "./ModulesControls";
-import ModuleControlButtons from "./ModulesControls";
 import LessonControlButtons from "./LessonControls";
 import { BsGripVertical } from "react-icons/bs";
-import { FaClipboard } from "react-icons/fa";
 import { BsPlus } from 'react-icons/bs';
 export default function Modules() {
     return (
