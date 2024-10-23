@@ -1,6 +1,8 @@
 import Select from 'react-select';
 import { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 export default function AssignmentEditor() {
+  const { cid } = useParams();
   return (
     <div className="container mt-4">
       <form>
@@ -155,8 +157,15 @@ export default function AssignmentEditor() {
 
         {/* Buttons */}
         <div className="float-end mt-4">
-          <button type="button" className="btn btn-secondary me-2">Cancel</button>
-          <button type="submit" className="btn btn-success">Save</button>
+          {/* Cancel button */}
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
+            Cancel
+          </Link>
+          
+          {/* Save button */}
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-success">
+            Save
+          </Link>
         </div>
       </form>
     </div>
