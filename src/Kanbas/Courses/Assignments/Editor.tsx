@@ -1,4 +1,3 @@
-import Select from "react-select";
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 
