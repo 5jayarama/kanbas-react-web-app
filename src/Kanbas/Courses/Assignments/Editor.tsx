@@ -1,169 +1,109 @@
-import Select from 'react-select';
-import { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import Select from "react-select";
+import { useState } from "react";
+import { useParams, Link } from "react-router-dom";
+
 export default function AssignmentEditor() {
   const { cid } = useParams();
+  
+  const [assignment, setAssignment] = useState({
+    name: "New Assignment",
+    description: "New Assignment Description",
+    points: 100,
+    dueDate: "",
+    availableFrom: "",
+    until: "",
+  });
+
   return (
     <div className="container mt-4">
       <form>
-        <div className="mb-4">
+        {/* Assignment Name */}
+        <div className="mb-3">
           <label htmlFor="assignment-name" className="form-label">Assignment Name</label>
           <input
             type="text"
             id="assignment-name"
             className="form-control"
-            defaultValue="A1"
+            value={assignment.name}
+            onChange={(e) => setAssignment({ ...assignment, name: e.target.value })}
           />
         </div>
 
-        <div className="mb-4">
+        {/* Assignment Description */}
+        <div className="mb-3">
+          <label htmlFor="description" className="form-label">Description</label>
           <textarea
             id="description"
             className="form-control"
-            style={{ height: '310px' }} 
-            defaultValue={`The assignment is available online.\n\nSubmit a link to the landing page of your Web application running on Netlify.\n\nThe landing page should include the following:\n\n- Your full name and section\n- Links to each of the lab assignments\n- Link to the Kanbas application\n- Links to all relevant source code repositories\n\nThe Kanbas application should include a link to navigate back to the landing page.`}
+            rows={4}
+            value={assignment.description}
+            onChange={(e) => setAssignment({ ...assignment, description: e.target.value })}
           />
         </div>
 
-{/* Points */}
-<div className="row justify-content-end">
-  <div className="col-md-10"> 
-    <div className="d-flex align-items-start mb-3">
-      <label htmlFor="points" className="form-label me-2" 
-             style={{ width: '25%', textAlign: 'right' }}> 
-        Points
-      </label>
-      <input 
-        type="number" 
-        id="points" 
-        className="form-control" 
-        style={{ width: '75%' }} 
-        defaultValue={100} 
-      />
-    </div>
-  </div>
-</div>
-
-
-{/* Assignment Group */}
-<div className="row justify-content-end">
-  <div className="col-md-10"> 
-    <div className="d-flex align-items-start mb-3">
-      <label htmlFor="assignment-group" className="form-label me-2" 
-             style={{ width: '25%', textAlign: 'right' }}> 
-        Assignment Group
-      </label>
-      <select id="assignment-group" className="form-select" 
-              style={{ width: '75%' }}> 
-        <option>ASSIGNMENTS</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-{/* Display Grade As */}
-<div className="row justify-content-end">
-  <div className="col-md-10">
-    <div className="d-flex align-items-start mb-3">
-      <label htmlFor="display-grade" className="form-label me-2" 
-             style={{ width: '25%', textAlign: 'right' }}> 
-        Display Grade as
-      </label>
-      <select id="display-grade" className="form-select" 
-              style={{ width: '75%' }}> 
-        <option>Percentage</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-{/* Submission Type + Online Entry Options (First Box) */}
-<div className="row justify-content-end">
-  <div className="col-md-10">
-    <div className="d-flex align-items-start">
-      <label htmlFor="submission-type" className="form-label me-2" 
-             style={{ width: '25%', textAlign: 'right' }}> 
-        Submission Type
-      </label>
-      <fieldset className="border p-4" style={{ width: '75%' }}> 
-        <select id="submission-type" className="form-select mb-3">
-          <option>Online</option>
-        </select>
-        <fieldset className="border p-3">
-          <legend className="fs-6">Online Entry Options</legend>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="website-url" defaultChecked />
-            <label className="form-check-label" htmlFor="website-url">Website URL</label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="text-entry" />
-            <label className="form-check-label" htmlFor="text-entry">Text Entry</label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="media-recordings" />
-            <label className="form-check-label" htmlFor="media-recordings">Media Recordings</label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="student-annotation" />
-            <label className="form-check-label" htmlFor="student-annotation">Student Annotation</label>
-          </div>
-          <div className="form-check">
-            <input className="form-check-input" type="checkbox" id="file-uploads" />
-            <label className="form-check-label" htmlFor="file-uploads">File Uploads</label>
-          </div>
-        </fieldset>
-      </fieldset>
-    </div>
-  </div>
-</div>
-
-<div className="row justify-content-end mt-4">
-  <div className="col-md-10">
-    <div className="d-flex align-items-start">
-      <label htmlFor="assign-to" className="form-label me-2" 
-             style={{ width: '25%', textAlign: 'right' }}> 
-        Assign
-      </label>
-      <fieldset className="border p-4" style={{ width: '75%' }}> 
-        <label htmlFor="assign-to-select" className="form-label">Assign to</label>
-        <Select
-          id="assign-to-select"
-          isMulti
-          options={[
-            { value: 'Everyone', label: 'Everyone' },
-          ]}
-          defaultValue={{ value: 'Everyone', label: 'Everyone' }}
-          className="mb-3"
-        />
-        {/* Due Date */}
-        <label htmlFor="due-date" className="form-label">Due</label>
-        <input type="datetime-local" id="due-date" className="form-control mb-3" defaultValue="2024-05-13T23:59" />
-        {/* Available From/Until */}
-        <div className="row">
-          <div className="col-md-6">
-            <label htmlFor="available-from" className="form-label">Available from</label>
-            <input type="datetime-local" id="available-from" className="form-control mb-3" defaultValue="2024-05-06T00:00" />
-          </div>
-          <div className="col-md-6">
-            <label htmlFor="until" className="form-label">Until</label>
-            <input type="datetime-local" id="until" className="form-control mb-3" />
+        {/* Points */}
+        <div className="row mb-3 align-items-center">
+          <label htmlFor="points" className="col-md-2 col-form-label text-md-end">Points</label>
+          <div className="col-md-10">
+            <input
+              type="number"
+              id="points"
+              className="form-control"
+              value={assignment.points}
+              onChange={(e) =>
+                setAssignment({ ...assignment, points: Number(e.target.value) })
+              }
+            />
           </div>
         </div>
-      </fieldset>
-    </div>
-  </div>
-</div>
 
+        {/* Assign Box */}
+        <div className="row align-items-center">
+          <label className="col-md-2 col-form-label text-md-end">Assign</label>
+          <div className="col-md-10">
+            <fieldset className="border p-3" style={{ borderRadius: "5px" }}>
+              <div className="mb-3">
+                <label htmlFor="due-date" className="form-label">Due</label>
+                <input
+                  type="datetime-local"
+                  id="due-date"
+                  className="form-control"
+                  value={assignment.dueDate}
+                  onChange={(e) => setAssignment({ ...assignment, dueDate: e.target.value })}
+                />
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <label htmlFor="available-from" className="form-label">Available From</label>
+                  <input
+                    type="datetime-local"
+                    id="available-from"
+                    className="form-control"
+                    value={assignment.availableFrom}
+                    onChange={(e) => setAssignment({ ...assignment, availableFrom: e.target.value })}
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="until" className="form-label">Available Until</label>
+                  <input
+                    type="datetime-local"
+                    id="until"
+                    className="form-control"
+                    value={assignment.until}
+                    onChange={(e) => setAssignment({ ...assignment, until: e.target.value })}
+                  />
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
 
         {/* Buttons */}
-        <div className="float-end mt-4">
-          {/* Cancel button */}
+        <div className="d-flex justify-content-end mt-4">
           <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
             Cancel
           </Link>
-          
-          {/* Save button */}
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-success">
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">
             Save
           </Link>
         </div>

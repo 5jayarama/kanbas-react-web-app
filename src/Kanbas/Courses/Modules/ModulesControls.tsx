@@ -1,18 +1,26 @@
 import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 import BlackCancelSymbol from "./BlackCancelSymbol";
+import ModuleEditor from "./ModuleEditor";
 
-export default function ModulesControls() {
+export default function ModulesControls(
+  { moduleName, setModuleName, addModule }:
+  { moduleName: string; setModuleName: (title: string) => void; addModule: () => void; }
+) {
   return (
     <div id="wd-modules-controls" className="text-nowrap">
+      {/* Button to open the ModuleEditor dialog */}
       <button
         id="wd-add-module-btn"
         className="btn btn-lg btn-danger me-1 float-end"
+        data-bs-toggle="modal" 
+        data-bs-target="#wd-add-module-dialog" // Target the ModuleEditor modal
       >
         <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
         Module
       </button>
 
+      {/* Additional controls */}
       <div className="dropdown d-inline me-1 float-end">
         <button
           id="wd-publish-all-btn"
@@ -34,7 +42,6 @@ export default function ModulesControls() {
               Publish all modules and items
             </a>
           </li>
-
           <li>
             <a
               id="wd-publish-modules-only-button"
@@ -45,7 +52,6 @@ export default function ModulesControls() {
               Publish modules only
             </a>
           </li>
-
           <li>
             <a
               id="wd-unpublish-all-modules-and-items"
@@ -56,7 +62,6 @@ export default function ModulesControls() {
               Unpublish all modules and items
             </a>
           </li>
-
           <li>
             <a
               id="wd-unpublish-modules-only"
@@ -70,19 +75,21 @@ export default function ModulesControls() {
         </ul>
       </div>
 
-      <button
-        id="wd-view-progress"
-        className="btn btn-lg btn-primary me-1 float-end"
-      >
+      <button id="wd-view-progress" className="btn btn-lg btn-primary me-1 float-end">
         View Progress
       </button>
 
-      <button
-        id="wd-collapse-all"
-        className="btn btn-lg btn-warning me-1 float-end"
-      >
+      <button id="wd-collapse-all" className="btn btn-lg btn-warning me-1 float-end">
         Collapse All
       </button>
+
+      {/* ModuleEditor Modal, Possibly unnecessary*/}
+      <ModuleEditor
+        dialogTitle="Add Module"
+        moduleName={moduleName}
+        setModuleName={setModuleName}
+        addModule={addModule}
+      />
     </div>
   );
 }

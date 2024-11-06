@@ -1,18 +1,23 @@
-import { useState } from "react";
-import { FaGripVertical, FaRegClipboard, FaChevronDown, FaChevronRight, FaCheckCircle, FaEllipsisV, FaSearch, FaPlus } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
-import * as db from "../../Database"; // Import assignments from the Database
+import React, { useState } from "react";
+import { FaGripVertical, FaRegClipboard, FaChevronDown, FaChevronRight, FaCheckCircle, FaEllipsisV, FaSearch, FaPlus, FaTrash, FaPencilAlt } from "react-icons/fa";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { deleteAssignment, setAssignmentForEdit } from "./reducer";
 
 export default function Assignments() {
   const { cid } = useParams(); // Retrieve the course ID from the URL params
   const [isOpen, setIsOpen] = useState(true);
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const assignments = useSelector((state: any) => state.assignmentsReducer.assignments);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   // Filter assignments based on the course ID
-  const filteredAssignments = db.assignments.filter((assignment: any) => assignment.course === cid);
+  const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
 
   return (
     <div className="container mt-4">
@@ -21,21 +26,20 @@ export default function Assignments() {
           <span className="input-group-text">
             <FaSearch />
           </span>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search for Assignments..."
-          />
+          <input type="text" className="form-control" placeholder="Search for Assignments..." />
         </div>
 
-        <div>
-          <button className="btn btn-light border me-2">
-            <FaPlus className="me-2" /> Group
-          </button>
-          <Link to={`./Editor`} className="btn btn-danger">
-            <FaPlus className="me-2" /> Assignment
-          </Link>
-        </div>
+        {/* Only display for faculty */}
+        {currentUser?.role === "FACULTY" && (
+          <div>
+            <button className="btn btn-light border me-2">
+              <FaPlus className="me-2" /> Group
+            </button>
+            <Link to={`./Editor`} className="btn btn-danger">
+              <FaPlus className="me-2" /> Assignment
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="d-flex align-items-center justify-content-between bg-light p-3 border rounded">
@@ -75,15 +79,36 @@ export default function Assignments() {
                     <div>
                       <h6 className="m-0">{assignment.title}</h6>
                       <p className="text-muted m-0">
-                        {/* Example of details you can provide */}
-                        Multiple Modules | Not available until May 6 at 12:00am | Due May 13 at 11:59pm | 100 pts
+                        Start: {new Date(assignment.not_available_until).toLocaleDateString()} | 
+                        Due: {new Date(assignment.due).toLocaleDateString()} | 
+                        Points: {assignment.points}
                       </p>
                     </div>
                   </div>
-                  <div>
-                    <FaCheckCircle className="text-success me-2 fs-4" />
-                    <FaEllipsisV className="text-muted fs-4" />
-                  </div>
+
+                  {/* Show edit and delete buttons only for faculty */}
+                  {currentUser?.role === "FACULTY" && (
+                    <div className="d-flex align-items-center">
+                      <FaPencilAlt
+                        onClick={() => {
+                          // Set the entire assignment object in the Redux state for editing
+                          dispatch(setAssignmentForEdit(assignment)); 
+                          navigate(`./Editor`); // Navigate to the AssignmentEditor screen
+                        }}
+                        className="text-primary me-3 cursor-pointer"
+                      />
+                      <FaTrash
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to delete this assignment?")) {
+                            dispatch(deleteAssignment(assignment._id));
+                          }
+                        }}
+                        className="text-danger cursor-pointer"
+                      />
+                      <FaCheckCircle className="text-success me-2 fs-4" />
+                      <FaEllipsisV className="text-muted fs-4" />
+                    </div>
+                  )}
                 </div>
                 <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
               </div>
