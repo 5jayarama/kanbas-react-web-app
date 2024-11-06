@@ -15,7 +15,7 @@ export default function AssignmentEditor() {
     points: 100,
     dueDate: "",
     availableFrom: "",
-    until: "",
+    availableUntilDate: "", // Add availableUntilDate to the initial state
   });
 
   // Fetch the assignment data to edit
@@ -36,8 +36,8 @@ export default function AssignmentEditor() {
         dueDate: assignmentToEdit.dueDate
           ? new Date(assignmentToEdit.dueDate).toISOString().slice(0, 16)
           : "",
-        until: assignmentToEdit.until
-          ? new Date(assignmentToEdit.until).toISOString().slice(0, 16)
+        availableUntilDate: assignmentToEdit.availableUntilDate
+          ? new Date(assignmentToEdit.availableUntilDate).toISOString().slice(0, 16)
           : "",
       });
     }
@@ -50,7 +50,9 @@ export default function AssignmentEditor() {
         ...assignment,
         availableDate: new Date(assignment.availableFrom).toISOString(),
         dueDate: new Date(assignment.dueDate).toISOString(),
-        until: assignment.until ? new Date(assignment.until).toISOString() : null,
+        availableUntilDate: assignment.availableUntilDate
+          ? new Date(assignment.availableUntilDate).toISOString()
+          : null,
       })
     );
   };
@@ -130,8 +132,8 @@ export default function AssignmentEditor() {
                     type="datetime-local"
                     id="until"
                     className="form-control"
-                    value={assignment.until}
-                    onChange={(e) => setAssignment({ ...assignment, until: e.target.value })}
+                    value={assignment.availableUntilDate}
+                    onChange={(e) => setAssignment({ ...assignment, availableUntilDate: e.target.value })}
                   />
                 </div>
               </div>
