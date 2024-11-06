@@ -30,11 +30,14 @@ export default function AssignmentEditor() {
     if (assignmentToEdit) {
       setAssignment({
         ...assignmentToEdit,
-        availableFrom: assignmentToEdit.available
-          ? new Date(assignmentToEdit.available).toISOString().slice(0, 16)
+        availableFrom: assignmentToEdit.availableDate
+          ? new Date(assignmentToEdit.availableDate).toISOString().slice(0, 16)
           : "",
-        dueDate: assignmentToEdit.due
-          ? new Date(assignmentToEdit.due).toISOString().slice(0, 16)
+        dueDate: assignmentToEdit.dueDate
+          ? new Date(assignmentToEdit.dueDate).toISOString().slice(0, 16)
+          : "",
+        until: assignmentToEdit.until
+          ? new Date(assignmentToEdit.until).toISOString().slice(0, 16)
           : "",
       });
     }
@@ -42,7 +45,14 @@ export default function AssignmentEditor() {
 
   // Save changes
   const handleSave = () => {
-    dispatch(updateAssignment(assignment));
+    dispatch(
+      updateAssignment({
+        ...assignment,
+        availableDate: new Date(assignment.availableFrom).toISOString(),
+        dueDate: new Date(assignment.dueDate).toISOString(),
+        until: assignment.until ? new Date(assignment.until).toISOString() : null,
+      })
+    );
   };
 
   return (

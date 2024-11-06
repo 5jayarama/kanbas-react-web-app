@@ -23,8 +23,8 @@ export default function Assignments() {
       id: assignment._id,
       title: assignment.title,
       points: assignment.points,
-      available: assignment.available,
-      due: assignment.due,
+      availableDate: assignment.availableDate, // Updated to use availableDate
+      dueDate: assignment.dueDate, // Updated to use dueDate
       description: assignment.description,
     }));
 
@@ -88,8 +88,8 @@ export default function Assignments() {
                     <div>
                       <h6 className="m-0">{assignment.title}</h6>
                       <p className="text-muted m-0">
-                        Start: {new Date(assignment.available).toLocaleDateString()} | 
-                        Due: {new Date(assignment.due).toLocaleDateString()} | 
+                        Start: {new Date(assignment.availableDate).toLocaleDateString()} | 
+                        Due: {new Date(assignment.dueDate).toLocaleDateString()} | 
                         Points: {assignment.points}
                       </p>
                     </div>
