@@ -1,17 +1,49 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAssignment, setAssignmentForEdit } from "./reducer";
 
 export default function AssignmentEditor() {
-  const { cid } = useParams();
-  
+  const { cid, aid } = useParams();
+  const dispatch = useDispatch();
+  const assignmentToEdit = useSelector((state: any) => state.assignmentsReducer.assignmentToEdit);
+
   const [assignment, setAssignment] = useState({
-    name: "New Assignment",
-    description: "New Assignment Description",
+    _id: "",
+    title: "",
+    description: "",
     points: 100,
     dueDate: "",
     availableFrom: "",
     until: "",
   });
+
+  // Fetch the assignment data to edit
+  useEffect(() => {
+    if (aid) {
+      dispatch(setAssignmentForEdit(aid));
+    }
+  }, [aid, dispatch]);
+
+  // Update local state with assignment data
+  useEffect(() => {
+    if (assignmentToEdit) {
+      setAssignment({
+        ...assignmentToEdit,
+        availableFrom: assignmentToEdit.available
+          ? new Date(assignmentToEdit.available).toISOString().slice(0, 16)
+          : "",
+        dueDate: assignmentToEdit.due
+          ? new Date(assignmentToEdit.due).toISOString().slice(0, 16)
+          : "",
+      });
+    }
+  }, [assignmentToEdit]);
+
+  // Save changes
+  const handleSave = () => {
+    dispatch(updateAssignment(assignment));
+  };
 
   return (
     <div className="container mt-4">
@@ -23,8 +55,8 @@ export default function AssignmentEditor() {
             type="text"
             id="assignment-name"
             className="form-control"
-            value={assignment.name}
-            onChange={(e) => setAssignment({ ...assignment, name: e.target.value })}
+            value={assignment.title}
+            onChange={(e) => setAssignment({ ...assignment, title: e.target.value })}
           />
         </div>
 
@@ -56,13 +88,13 @@ export default function AssignmentEditor() {
           </div>
         </div>
 
-        {/* Assign Box */}
+        {/* Date Fields */}
         <div className="row align-items-center">
-          <label className="col-md-2 col-form-label text-md-end">Assign</label>
+          <label className="col-md-2 col-form-label text-md-end">Dates</label>
           <div className="col-md-10">
             <fieldset className="border p-3" style={{ borderRadius: "5px" }}>
               <div className="mb-3">
-                <label htmlFor="due-date" className="form-label">Due</label>
+                <label htmlFor="due-date" className="form-label">Due Date</label>
                 <input
                   type="datetime-local"
                   id="due-date"
@@ -73,7 +105,7 @@ export default function AssignmentEditor() {
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <label htmlFor="available-from" className="form-label">Available From</label>
+                  <label htmlFor="available-from" className="form-label">Start Date</label>
                   <input
                     type="datetime-local"
                     id="available-from"
@@ -83,7 +115,7 @@ export default function AssignmentEditor() {
                   />
                 </div>
                 <div className="col-md-6">
-                  <label htmlFor="until" className="form-label">Available Until</label>
+                  <label htmlFor="until" className="form-label">End Date</label>
                   <input
                     type="datetime-local"
                     id="until"
@@ -102,7 +134,7 @@ export default function AssignmentEditor() {
           <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary me-2">
             Cancel
           </Link>
-          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger">
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`} className="btn btn-danger" onClick={handleSave}>
             Save
           </Link>
         </div>

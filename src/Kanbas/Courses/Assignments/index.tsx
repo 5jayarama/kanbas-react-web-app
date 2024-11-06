@@ -16,8 +16,17 @@ export default function Assignments() {
     setIsOpen(!isOpen);
   };
 
-  // Filter assignments based on the course ID
-  const filteredAssignments = assignments.filter((assignment: any) => assignment.course === cid);
+  // Filter assignments based on the course ID to get full details from assignments.json
+  const filteredAssignments = assignments
+    .filter((assignment: any) => assignment.course === cid) // First filter by course ID
+    .map((assignment: any) => ({
+      id: assignment._id,
+      title: assignment.title,
+      points: assignment.points,
+      available: assignment.available,
+      due: assignment.due,
+      description: assignment.description,
+    }));
 
   return (
     <div className="container mt-4">
@@ -71,7 +80,7 @@ export default function Assignments() {
           {/* Render dynamic assignments for the current course */}
           {filteredAssignments.length > 0 ? (
             filteredAssignments.map((assignment: any) => (
-              <div key={assignment._id}>
+              <div key={assignment.id}>
                 <div className="d-flex align-items-center justify-content-between border-start border-3 border-success p-3">
                   <div className="d-flex align-items-center">
                     <FaGripVertical className="me-2 fs-4" />
@@ -79,7 +88,7 @@ export default function Assignments() {
                     <div>
                       <h6 className="m-0">{assignment.title}</h6>
                       <p className="text-muted m-0">
-                        Start: {new Date(assignment.not_available_until).toLocaleDateString()} | 
+                        Start: {new Date(assignment.available).toLocaleDateString()} | 
                         Due: {new Date(assignment.due).toLocaleDateString()} | 
                         Points: {assignment.points}
                       </p>
@@ -91,16 +100,15 @@ export default function Assignments() {
                     <div className="d-flex align-items-center">
                       <FaPencilAlt
                         onClick={() => {
-                          // Set the entire assignment object in the Redux state for editing
                           dispatch(setAssignmentForEdit(assignment)); 
-                          navigate(`./Editor`); // Navigate to the AssignmentEditor screen
+                          navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment.id}`);
                         }}
                         className="text-primary me-3 cursor-pointer"
                       />
                       <FaTrash
                         onClick={() => {
                           if (window.confirm("Are you sure you want to delete this assignment?")) {
-                            dispatch(deleteAssignment(assignment._id));
+                            dispatch(deleteAssignment(assignment.id));
                           }
                         }}
                         className="text-danger cursor-pointer"
