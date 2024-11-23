@@ -4,27 +4,20 @@ import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import * as db from "../Database";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import * as client from "./client";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<{ username?: string; password?: string }>({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const signin = () => {
-    // Search for a user that matches the entered credentials
-    const user = db.users.find(
-      (u: any) =>
-        u.username === credentials.username && u.password === credentials.password
-    );
-
-    if (!user) return; // Ignore if no match
-
-    // Dispatch the found user to the Redux store
+  const signin = async () => {
+    const user =  await client.signin(credentials);
+    if (!user) return;
     dispatch(setCurrentUser(user));
-
-    // Navigate to the Dashboard
     navigate("/Kanbas/Dashboard");
   };
+
 
   return (
     <div className="container d-flex justify-content-center align-items-start vh-100 mt-3">
