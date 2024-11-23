@@ -1,4 +1,3 @@
-
 import { useLocation } from "react-router";
 export default function TOC() {
   const { pathname } = useLocation();
@@ -40,17 +39,25 @@ export default function TOC() {
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-k" href="#/Kanbas" className="nav-link">
+        <a id="wd-kanbas" href="#/Kanbas" className="nav-link">
           Kanbas
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-k" href="https://github.com/5jayarama/kanbas-react-web-app.git" className="nav-link">
+        <a id="wd-github" href="https://github.com/5jayarama/kanbas-react-web-app.git" className="nav-link" target="_blank" rel="noopener noreferrer">
           My GitHub
+        </a>
+      </li>
+      <li className="nav-item">
+        <a id="wd-heroku" href="https://kanbas-node-server-app12-74f571b92fc9.herokuapp.com/" className="nav-link" target="_blank" rel="noopener noreferrer">
+          Heroku Server
+        </a>
+      </li>
+      <li className="nav-item">
+        <a id="wd-render" href="https://kanbas-node-server-app-cc98.onrender.com/" className="nav-link" target="_blank" rel="noopener noreferrer">
+          Render Server
         </a>
       </li>
     </ul>
   );
 }
-
-  
