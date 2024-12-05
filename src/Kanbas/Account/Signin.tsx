@@ -12,10 +12,20 @@ export default function Signin() {
   const navigate = useNavigate();
 
   const signin = async () => {
-    const user =  await client.signin(credentials);
-    if (!user) return;
-    dispatch(setCurrentUser(user));
-    navigate("/Kanbas/Dashboard");
+    try {
+      const user = await client.signin(credentials);
+      if (!user) return;
+  
+      dispatch(setCurrentUser(user));
+      console.log("Logged in user:", user);
+  
+      // Print cookies (if accessible)
+      console.log("Cookies after login:", document.cookie);
+  
+      navigate("/Kanbas/Dashboard");
+    } catch (error: any) {
+      console.error("Login failed:", error.response?.data?.message || error.message);
+    }
   };
 
 
