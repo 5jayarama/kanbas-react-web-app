@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { FaGripVertical, FaRegClipboard, FaChevronDown, FaChevronRight, FaCheckCircle, FaEllipsisV, FaSearch, FaPlus, FaTrash, FaPencilAlt } from "react-icons/fa";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment, setAssignments } from "./reducer";
+import { deleteAssignment, setAssignmentForEdit, setAssignments } from "./reducer";
 import * as coursesClient from "../client";
+import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams(); // Retrieve the course ID from the URL params
@@ -97,7 +98,7 @@ export default function Assignments() {
                       <p className="text-muted m-0">
                         Start: {new Date(assignment.availableDate).toLocaleDateString()} | 
                         Due: {new Date(assignment.dueDate).toLocaleDateString()} | 
-                        Points: {100}
+                        Points: {assignment.points}
                       </p>
                     </div>
                   </div>
@@ -111,14 +112,26 @@ export default function Assignments() {
                         }}
                         className="text-primary me-3 cursor-pointer"
                       />
-                      <FaTrash
-                        onClick={() => {
-                          if (window.confirm("Are you sure you want to delete this assignment?")) {
-                            dispatch(deleteAssignment(assignment._id));
-                          }
-                        }}
-                        className="text-danger cursor-pointer"
-                      />
+<FaTrash
+  onClick={async () => {
+    if (window.confirm("Are you sure you want to delete this assignment?")) {
+      try {
+        // Call the client API to delete the assignment
+        await assignmentsClient.deleteAssignment(assignment._id);
+        
+        // Optionally, dispatch an action to update the state
+        dispatch(deleteAssignment(assignment._id));
+
+        // Optionally, show a success message or refresh the list
+        alert("Assignment deleted successfully.");
+      } catch (error) {
+        console.error("Error deleting assignment:", error);
+        alert("Failed to delete the assignment. Please try again.");
+      }
+    }
+  }}
+  className="text-danger cursor-pointer"
+/>
                       <FaCheckCircle className="text-success me-2 fs-4" />
                       <FaEllipsisV className="text-muted fs-4" />
                     </div>

@@ -2,6 +2,7 @@ import axios from "axios";
 const axiosWithCredentials = axios.create({ withCredentials: true });
 const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
 const ASSIGNMENTS_API = `${REMOTE_SERVER}/api/assignments`;
+const COURSES_API = `${process.env.REACT_APP_API_URL}/api/courses`;
 
 // Define the structure of an assignment
 interface Assignment {
@@ -14,8 +15,11 @@ interface Assignment {
   availableUntilDate?: string;
   points?: number;
 }
-export const updateAssignment = async (assignmentId: String, assignment: any) => {
-  const { data } = await axiosWithCredentials.put(`${ASSIGNMENTS_API}/${assignmentId}`, assignment);
+export const updateAssignment = async (courseId: string, assignmentId: string, assignment: any) => {
+  const { data } = await axiosWithCredentials.put(
+      `${COURSES_API}/${courseId}/assignments/${assignmentId}`,
+      assignment
+  );
   return data;
 };
 
