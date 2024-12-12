@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { FaGripVertical, FaRegClipboard, FaChevronDown, FaChevronRight, FaCheckCircle, FaEllipsisV, FaSearch, FaPlus, FaTrash, FaPencilAlt } from "react-icons/fa";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment, setAssignmentForEdit, clearAssignmentEdit } from "./reducer";
-import axios from "axios";
+import { deleteAssignment, setAssignments } from "./reducer";
 import * as coursesClient from "../client";
-import * as assignmentsClient from "./client";
 
 export default function Assignments() {
   const { cid } = useParams(); // Retrieve the course ID from the URL params
@@ -22,19 +20,17 @@ export default function Assignments() {
   const fetchAssignments = async () => {
     try {
       const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
-      assignments.forEach((assignment: any) => {
-        dispatch({ type: "assignments/addAssignment", payload: assignment }); // Dispatching for each assignment
-      });
+      dispatch(setAssignments(assignments));
     } catch (error) {
       console.error("Error fetching assignments:", error);
     }
   };
-  
+
   useEffect(() => {
     if (cid) {
       fetchAssignments();
     }
-  }, [cid, dispatch]);
+  }, [cid]);
 
   return (
     <div className="container mt-4">
@@ -73,7 +69,10 @@ export default function Assignments() {
         </div>
 
         <div className="d-flex align-items-center">
-          <div className="rounded-pill bg-light border border-secondary d-flex align-items-center justify-content-center" style={{ width: "120px", height: "40px" }}>
+          <div
+            className="rounded-pill bg-light border border-secondary d-flex align-items-center justify-content-center"
+            style={{ width: "120px", height: "40px" }}
+          >
             <span className="text-muted">40% of Total</span>
           </div>
           <FaPlus className="mx-3" />
@@ -84,7 +83,7 @@ export default function Assignments() {
       {isOpen && (
         <div className="mt-3">
           <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
-          
+
           {/* Render dynamic assignments for the current course */}
           {assignments.length > 0 ? (
             assignments.map((assignment: any) => (
@@ -98,7 +97,7 @@ export default function Assignments() {
                       <p className="text-muted m-0">
                         Start: {new Date(assignment.availableDate).toLocaleDateString()} | 
                         Due: {new Date(assignment.dueDate).toLocaleDateString()} | 
-                        Points: {assignment.points}
+                        Points: {100}
                       </p>
                     </div>
                   </div>
@@ -108,7 +107,6 @@ export default function Assignments() {
                     <div className="d-flex align-items-center">
                       <FaPencilAlt
                         onClick={() => {
-                          dispatch(setAssignmentForEdit(assignment)); 
                           navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`);
                         }}
                         className="text-primary me-3 cursor-pointer"
