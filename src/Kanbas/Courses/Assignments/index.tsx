@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaGripVertical, FaRegClipboard, FaChevronDown, FaChevronRight, FaCheckCircle, FaEllipsisV, FaSearch, FaPlus, FaTrash, FaPencilAlt } from "react-icons/fa";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteAssignment, setAssignmentForEdit } from "./reducer";
+import { deleteAssignment, setAssignmentForEdit, setAssignments } from "./reducer";
 import * as coursesClient from "../client";
 
 export default function Assignments() {
@@ -20,7 +20,7 @@ export default function Assignments() {
   const fetchAssignments = async () => {
     try {
       const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
-      dispatch(setAssignmentForEdit(assignments));
+      dispatch(setAssignments(assignments));
     } catch (error) {
       console.error("Error fetching assignments:", error);
     }
@@ -97,7 +97,7 @@ export default function Assignments() {
                       <p className="text-muted m-0">
                         Start: {new Date(assignment.availableDate).toLocaleDateString()} | 
                         Due: {new Date(assignment.dueDate).toLocaleDateString()} | 
-                        Points: {100}
+                        Points: {assignment.points}
                       </p>
                     </div>
                   </div>
