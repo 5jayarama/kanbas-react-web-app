@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGripVertical, FaRegClipboard, FaChevronDown, FaChevronRight, FaCheckCircle, FaEllipsisV, FaSearch, FaPlus, FaTrash, FaPencilAlt } from "react-icons/fa";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteAssignment, setAssignmentForEdit } from "./reducer";
+import * as coursesClient from "../client";
 
 export default function Assignments() {
   const { cid } = useParams(); // Retrieve the course ID from the URL params
@@ -16,17 +17,20 @@ export default function Assignments() {
     setIsOpen(!isOpen);
   };
 
-  // Filter assignments based on the course ID to get full details from assignments.json
-  const filteredAssignments = assignments
-    .filter((assignment: any) => assignment.course === cid) // First filter by course ID
-    .map((assignment: any) => ({
-      id: assignment._id,
-      title: assignment.title,
-      points: assignment.points,
-      availableDate: assignment.availableDate, // Updated to use availableDate
-      dueDate: assignment.dueDate, // Updated to use dueDate
-      description: assignment.description,
-    }));
+  const fetchAssignments = async () => {
+    try {
+      const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
+      dispatch(setAssignmentForEdit(assignments));
+    } catch (error) {
+      console.error("Error fetching assignments:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (cid) {
+      fetchAssignments();
+    }
+  }, [cid]);
 
   return (
     <div className="container mt-4">
@@ -65,7 +69,10 @@ export default function Assignments() {
         </div>
 
         <div className="d-flex align-items-center">
-          <div className="rounded-pill bg-light border border-secondary d-flex align-items-center justify-content-center" style={{ width: "120px", height: "40px" }}>
+          <div
+            className="rounded-pill bg-light border border-secondary d-flex align-items-center justify-content-center"
+            style={{ width: "120px", height: "40px" }}
+          >
             <span className="text-muted">40% of Total</span>
           </div>
           <FaPlus className="mx-3" />
@@ -76,11 +83,11 @@ export default function Assignments() {
       {isOpen && (
         <div className="mt-3">
           <hr className="m-0 text-muted" style={{ border: "1px solid lightgrey" }} />
-          
+
           {/* Render dynamic assignments for the current course */}
-          {filteredAssignments.length > 0 ? (
-            filteredAssignments.map((assignment: any) => (
-              <div key={assignment.id}>
+          {assignments.length > 0 ? (
+            assignments.map((assignment: any) => (
+              <div key={assignment._id}>
                 <div className="d-flex align-items-center justify-content-between border-start border-3 border-success p-3">
                   <div className="d-flex align-items-center">
                     <FaGripVertical className="me-2 fs-4" />
@@ -90,7 +97,7 @@ export default function Assignments() {
                       <p className="text-muted m-0">
                         Start: {new Date(assignment.availableDate).toLocaleDateString()} | 
                         Due: {new Date(assignment.dueDate).toLocaleDateString()} | 
-                        Points: {assignment.points}
+                        Points: {100}
                       </p>
                     </div>
                   </div>
@@ -100,15 +107,14 @@ export default function Assignments() {
                     <div className="d-flex align-items-center">
                       <FaPencilAlt
                         onClick={() => {
-                          dispatch(setAssignmentForEdit(assignment)); 
-                          navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment.id}`);
+                          navigate(`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`);
                         }}
                         className="text-primary me-3 cursor-pointer"
                       />
                       <FaTrash
                         onClick={() => {
                           if (window.confirm("Are you sure you want to delete this assignment?")) {
-                            dispatch(deleteAssignment(assignment.id));
+                            dispatch(deleteAssignment(assignment._id));
                           }
                         }}
                         className="text-danger cursor-pointer"

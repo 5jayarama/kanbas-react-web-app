@@ -56,6 +56,9 @@ const assignmentsSlice = createSlice({
     clearAssignmentEdit: (state) => {
       state.assignmentToEdit = null; // Clears the edit state when canceled or saved
     },
+    setAssignments: (state, action) => {
+      state.assignments = action.payload;
+    },
   },
 });
 
